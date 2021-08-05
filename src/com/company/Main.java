@@ -12,9 +12,9 @@ public class Main {
         GameProgress save2 = new GameProgress(80, 10, 3, 400);
         GameProgress save3 = new GameProgress(65, 3, 17, 151);
 
-        SaveGame("/Users/natalaganieva/Documents/Games/savegames/save1.dat", save1);
-        SaveGame("/Users/natalaganieva/Documents/Games/savegames/save2.dat", save2);
-        SaveGame("/Users/natalaganieva/Documents/Games/savegames/save3.dat", save3);
+        saveGame("/Users/natalaganieva/Documents/Games/savegames/save1.dat", save1);
+        saveGame("/Users/natalaganieva/Documents/Games/savegames/save2.dat", save2);
+        saveGame("/Users/natalaganieva/Documents/Games/savegames/save3.dat", save3);
 
         String zipFileName = "/Users/natalaganieva/Documents/Games/savegames/saves.zip";
         String[] pathFiles = new String[3];
@@ -34,22 +34,17 @@ public class Main {
 
     }
 
-    public static void SaveGame(String path, GameProgress save) {
+    public static void saveGame(String path, GameProgress save) {
 
         try {
-            FileOutputStream fos;
-            fos = new FileOutputStream(path);
-            try {
-                ObjectOutputStream oos;
-                oos = new ObjectOutputStream(fos);
-                oos.writeObject(save);
-                System.out.println("Game has saved in " + path);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+            FileOutputStream fos = new FileOutputStream(path);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(save);
+            System.out.println("Game has saved in " + path);
+
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+    }
 
     }
 
