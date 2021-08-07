@@ -31,25 +31,21 @@ public class Main {
         File save3File = new File("/Users/natalaganieva/Documents/Games/savegames/save3.dat");
         save3File.delete();
 
-
     }
 
     public static void saveGame(String path, GameProgress save) {
 
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(path);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(save);
             System.out.println("Game has saved in " + path);
 
-    } catch (IOException e) {
-        System.out.println(e.getMessage());
-    }
-
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void zipFiles(String zipFileName, String[] pathFiles) {
-
 
         ZipOutputStream zout = null;
         try {
@@ -59,21 +55,17 @@ public class Main {
         }
 
         for (String s : pathFiles) {
-               try {
-                FileInputStream fis = new FileInputStream(s);
-                    ZipEntry entry = new ZipEntry(s);
-                    zout.putNextEntry(entry);
-                    byte[] buffer = new byte[fis.available()];
-                    fis.read(buffer);
-                    zout.write(buffer);
-                    zout.closeEntry();
-                   System.out.println("File " + s + " added to zip file");
-                } catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
+            try (FileInputStream fis = new FileInputStream(s)) {
+                ZipEntry entry = new ZipEntry(s);
+                zout.putNextEntry(entry);
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                zout.write(buffer);
+                zout.closeEntry();
+                System.out.println("File " + s + " added to zip file");
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
-
         }
     }
-
-
+}
